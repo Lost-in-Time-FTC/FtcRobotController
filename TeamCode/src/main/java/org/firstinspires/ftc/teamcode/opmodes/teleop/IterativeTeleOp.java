@@ -32,9 +32,9 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.config.Hardware;
+import org.firstinspires.ftc.teamcode.opmodes.teleop.subsystems.Drive;
 
 @TeleOp(name="Iterative TeleOp", group="Iterative OpMode")
 public class IterativeTeleOp extends OpMode
@@ -42,6 +42,7 @@ public class IterativeTeleOp extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private Hardware hardware;
+    private Drive drive;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -49,6 +50,7 @@ public class IterativeTeleOp extends OpMode
     @Override
     public void init() {
         hardware = new Hardware(hardwareMap);
+        drive = new Drive(hardware, gamepad1);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -75,7 +77,7 @@ public class IterativeTeleOp extends OpMode
      */
     @Override
     public void loop() {
-        drive();
+        drive.move();
 
         // Show the elapsed game time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -86,44 +88,5 @@ public class IterativeTeleOp extends OpMode
      */
     @Override
     public void stop() {
-    }
-
-    public void drive() {
-        // Mecanum
-        double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
-        double strafe = gamepad1.left_stick_x;
-
-        // Strafing
-        double fL = Range.clip(drive + strafe + turn, -0.5, 0.5);
-        double fR = Range.clip(drive - strafe - turn, -0.5, 0.5);
-        double bL = Range.clip(drive - strafe + turn, -0.5, 0.5);
-        double bR = Range.clip(drive + strafe - turn, -0.5, 0.5);
-
-        double rapidMode = 1.75;
-        double sniperMode = 0.25;
-
-        // Sniper mode
-        if (gamepad1.left_trigger > 0) {
-            hardware.fL.setPower(fL * rapidMode * sniperMode);
-            hardware.fR.setPower(fR * rapidMode * sniperMode);
-            hardware.bL.setPower(bL * rapidMode * sniperMode);
-            hardware.bR.setPower(bR * rapidMode * sniperMode);
-        }
-        // Brakes
-        else if (gamepad1.right_trigger > 0) {
-            hardware.fL.setPower(fL * 0);
-            hardware.fR.setPower(fR * 0);
-            hardware.bL.setPower(bL * 0);
-            hardware.bR.setPower(bR * 0);
-
-        }
-        // Normal drive
-        else {
-            hardware.fL.setPower(fL * rapidMode);
-            hardware.fR.setPower(fR * rapidMode);
-            hardware.bL.setPower(bL * rapidMode);
-            hardware.bR.setPower(bR * rapidMode);
-        }
     }
 }
