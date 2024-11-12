@@ -31,10 +31,13 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.config.Hardware;
+import org.firstinspires.ftc.teamcode.opmodes.teleop.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.opmodes.teleop.subsystems.Drive;
+import org.firstinspires.ftc.teamcode.opmodes.teleop.subsystems.Pincer;
 
 @TeleOp(name="Iterative TeleOp", group="Iterative OpMode")
 public class IterativeTeleOp extends OpMode
@@ -43,6 +46,10 @@ public class IterativeTeleOp extends OpMode
     private ElapsedTime runtime = new ElapsedTime();
     private Hardware hardware;
     private Drive drive;
+    private Arm arm;
+    private Pincer pincer;
+    private Gamepad currentGamepad2;
+    private Gamepad previousGamepad2;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -51,6 +58,11 @@ public class IterativeTeleOp extends OpMode
     public void init() {
         hardware = new Hardware(hardwareMap);
         drive = new Drive(hardware, gamepad1);
+        arm = new Arm(hardware, gamepad2);
+        pincer = new Pincer(hardware, gamepad2);
+
+        currentGamepad2 = new Gamepad();
+        previousGamepad2 = new Gamepad();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -78,6 +90,11 @@ public class IterativeTeleOp extends OpMode
     @Override
     public void loop() {
         drive.move();
+        arm.extend();
+        arm.rotate();
+        pincer.pince(currentGamepad2, previousGamepad2);
+        pincer.twist(currentGamepad2, previousGamepad2);
+        pincer.rotate();
 
         // Show the elapsed game time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
