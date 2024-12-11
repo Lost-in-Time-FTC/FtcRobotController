@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop.subsystems;
 
+import static java.lang.Math.abs;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,10 +20,22 @@ public class Arm {
     }
 
     public void extend() {
-        hardware.armExtender.setPower(-0.75*gamepad2.right_stick_y);
+        hardware.armExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        if (abs(gamepad2.right_stick_y) < 0.1) {
+            hardware.armExtender.setPower(0);
+        } else {
+            hardware.armExtender.setPower(-0.75 * gamepad2.right_stick_y);
+        }
     }
 
     public void rotate() {
-        hardware.armRotator.setPower(0.75*gamepad2.left_stick_y);
+        hardware.armRotator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        if (abs(gamepad2.left_stick_y) < 0.1) {
+            hardware.armRotator.setPower(0);
+        } else {
+            hardware.armRotator.setPower(0.75 * gamepad2.left_stick_y);
+        }
     }
 }
