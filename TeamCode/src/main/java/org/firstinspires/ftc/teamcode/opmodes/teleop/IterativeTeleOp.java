@@ -57,9 +57,9 @@ public class IterativeTeleOp extends OpMode
     @Override
     public void init() {
         hardware = new Hardware(hardwareMap);
-        drive = new Drive(hardware, gamepad1);
-        arm = new Arm(hardware, gamepad2);
-        pincer = new Pincer(hardware, gamepad2);
+        drive = new Drive(hardware, telemetry, gamepad1);
+        arm = new Arm(hardware, telemetry, gamepad2);
+        pincer = new Pincer(hardware, telemetry, gamepad2);
 
         currentGamepad2 = new Gamepad();
         previousGamepad2 = new Gamepad();
@@ -93,8 +93,8 @@ public class IterativeTeleOp extends OpMode
         arm.extend();
         arm.rotate();
         pincer.pince(currentGamepad2, previousGamepad2);
-        pincer.twist(currentGamepad2, previousGamepad2);
-        pincer.rotate();
+        pincer.rotate(currentGamepad2, previousGamepad2);
+        pincer.twist();
 
         // Show the elapsed game time
         telemetry.addData("Status", "Run Time: " + runtime.toString());

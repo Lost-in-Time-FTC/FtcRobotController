@@ -3,14 +3,17 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop.subsystems;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.config.Hardware;
 
 public class Drive {
     private Hardware hardware;
+    private Telemetry telemetry;
     private Gamepad gamepad1;
 
-    public Drive(Hardware hardware, Gamepad gamepad1) {
+    public Drive(Hardware hardware, Telemetry telemetry, Gamepad gamepad1) {
         this.hardware = hardware;
+        this.telemetry = telemetry;
         this.gamepad1 = gamepad1;
     }
 
