@@ -58,13 +58,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AutoByTime_Far extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor         leftDrive   = null;
-    private DcMotor         rightDrive  = null;
     private DcMotor         frontLeftDrive   = null;
     private DcMotor         backLeftDrive   = null;
     private DcMotor         frontRightDrive  = null;
     private DcMotor         backRightDrive  = null;
-    DcMotor[] motorList = {frontLeftDrive, backLeftDrive, frontRightDrive, backRightDrive};
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -93,10 +90,11 @@ public class AutoByTime_Far extends LinearOpMode {
             frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
             backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         }
+        frontLeftDrive.setPower(FORWARD_SPEED);
+        frontRightDrive.setPower(FORWARD_SPEED);
+        backLeftDrive.setPower(FORWARD_SPEED);
+        backRightDrive.setPower(FORWARD_SPEED);
 
-        for (DcMotor elem : motorList) {
-            elem.setPower(FORWARD_SPEED);
-        }
         /* used if the above for loop doesn't work
         frontLeftDrive.setPower(FORWARD_SPEED);
         backLeftDrive.setPower(FORWARD_SPEED);
@@ -111,9 +109,11 @@ public class AutoByTime_Far extends LinearOpMode {
         if (direction) {
             k = 1;
         }
-        for (DcMotor elem : motorList) {
-            elem.setPower(k * TURN_SPEED);
-        }
+        frontLeftDrive.setPower(k * TURN_SPEED);
+        frontRightDrive.setPower(k * TURN_SPEED);
+        backLeftDrive.setPower(k * TURN_SPEED);
+        backRightDrive.setPower(k * TURN_SPEED);
+
     }
     @Override
     public void runOpMode() {
@@ -158,8 +158,10 @@ public class AutoByTime_Far extends LinearOpMode {
         }
 
         // Step 4:  Stop
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
+        frontLeftDrive.setPower(0);
+        frontRightDrive.setPower(0);
+        backLeftDrive.setPower(0);
+        backRightDrive.setPower(0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

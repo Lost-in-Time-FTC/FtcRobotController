@@ -58,8 +58,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class AutoByTime_Near extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor         leftDrive   = null;
-    private DcMotor         rightDrive  = null;
     private DcMotor         frontLeftDrive   = null;
     private DcMotor         backLeftDrive   = null;
     private DcMotor         frontRightDrive  = null;
@@ -165,8 +163,10 @@ public class AutoByTime_Near extends LinearOpMode {
         */
 
         // Step 4:  Stop
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
+        frontLeftDrive.setPower(0);
+        frontRightDrive.setPower(0);
+        backLeftDrive.setPower(0);
+        backRightDrive.setPower(0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
