@@ -137,12 +137,12 @@ public class AutoByTime_Far extends LinearOpMode {
 
         // Step 1:  Drive forward for 3 seconds
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
-            driveWithoutTurn("left");
+        while (opModeIsActive() && (runtime.seconds() < 1.25)) {
+            driveWithoutTurn("back");
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-
+/*
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             driveWithoutTurn("forward");
@@ -156,7 +156,7 @@ public class AutoByTime_Far extends LinearOpMode {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-
+*/
         // Step 4:  Stop
         frontLeftDrive.setPower(0);
         frontRightDrive.setPower(0);

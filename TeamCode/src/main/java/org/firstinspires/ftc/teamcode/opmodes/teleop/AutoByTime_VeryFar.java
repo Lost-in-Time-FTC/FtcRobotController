@@ -55,14 +55,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Robot: Auto Drive By Time", group="Robot")
 //@Disabled
-public class AutoByTime_Near extends LinearOpMode {
+public class AutoByTime_VeryFar extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         frontLeftDrive   = null;
     private DcMotor         backLeftDrive   = null;
     private DcMotor         frontRightDrive  = null;
     private DcMotor         backRightDrive  = null;
-    DcMotor[] motorList = {frontLeftDrive, backLeftDrive, frontRightDrive, backRightDrive};
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -91,10 +90,11 @@ public class AutoByTime_Near extends LinearOpMode {
             frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
             backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         }
+        frontLeftDrive.setPower(FORWARD_SPEED);
+        frontRightDrive.setPower(FORWARD_SPEED);
+        backLeftDrive.setPower(FORWARD_SPEED);
+        backRightDrive.setPower(FORWARD_SPEED);
 
-        for (DcMotor elem : motorList) {
-            elem.setPower(FORWARD_SPEED);
-        }
         /* used if the above for loop doesn't work
         frontLeftDrive.setPower(FORWARD_SPEED);
         backLeftDrive.setPower(FORWARD_SPEED);
@@ -109,9 +109,11 @@ public class AutoByTime_Near extends LinearOpMode {
         if (direction) {
             k = 1;
         }
-        for (DcMotor elem : motorList) {
-            elem.setPower(k * TURN_SPEED);
-        }
+        frontLeftDrive.setPower(k * TURN_SPEED);
+        frontRightDrive.setPower(k * TURN_SPEED);
+        backLeftDrive.setPower(k * TURN_SPEED);
+        backRightDrive.setPower(k * TURN_SPEED);
+
     }
     @Override
     public void runOpMode() {
@@ -135,33 +137,34 @@ public class AutoByTime_Near extends LinearOpMode {
 
         // Step 1:  Drive forward for 3 seconds
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-            driveWithoutTurn("forward");
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            driveWithoutTurn("back");
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Spin right for 1.3 seconds
-        /*
-        setTurnDirection(true);
+        //Step 2: should be in the triangle, now move back to park
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 3.50)) {
+            driveWithoutTurn("forward");
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+/*
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            driveWithoutTurn("forward");
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        */
 
-        // Step 3:  Drive Backward for 1 Second
-        /*
-        leftDrive.setPower(-FORWARD_SPEED);
-        rightDrive.setPower(-FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+            driveWithoutTurn("right");
+            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        */
-
+*/
         // Step 4:  Stop
         frontLeftDrive.setPower(0);
         frontRightDrive.setPower(0);
