@@ -40,25 +40,33 @@ public class Pincer {
         }
     }
 
-    // Rotate Pincer Vertically
-    public void rotate(Gamepad currentGamepad2, Gamepad previousGamepad2) {
-        try {
-            previousGamepad2.copy(currentGamepad2);
-            currentGamepad2.copy(gamepad2);
-        } catch (Exception e) {}
-
-        if (currentGamepad2.b && !previousGamepad2.b) {
-            pincerTwistToggle = !pincerTwistToggle;
-        }
-
-        if (pincerTwistToggle) {
+    //Rotate Pincer Vertically Take 2
+    public void rotate() {
+        if (gamepad2.b) {
             hardware.pincerRotatorR.setPosition(1);
-            hardware.pincerRotatorL.setPosition(1);
-        } else {
-            hardware.pincerRotatorR.setPosition(.5);
-            hardware.pincerRotatorL.setPosition(.5);
+        } else if (gamepad2.x) {
+            hardware.pincerRotatorR.setPosition(0.5);
         }
     }
+    // Rotate Pincer Vertically
+//    public void rotate(Gamepad currentGamepad2, Gamepad previousGamepad2) {
+//        try {
+//            previousGamepad2.copy(currentGamepad2);
+//            currentGamepad2.copy(gamepad2);
+//        } catch (Exception e) {}
+//
+//        if (currentGamepad2.b && !previousGamepad2.b) {
+//            pincerTwistToggle = !pincerTwistToggle;
+//        }
+//
+//        if (pincerTwistToggle) {
+//            hardware.pincerRotatorR.setPosition(1);
+//            hardware.pincerRotatorL.setPosition(1);
+//        } else {
+//            hardware.pincerRotatorR.setPosition(.5);
+//            hardware.pincerRotatorL.setPosition(.5);
+//        }
+//    }
 
     // Twist Pincer Horizontally
     public void twist() {

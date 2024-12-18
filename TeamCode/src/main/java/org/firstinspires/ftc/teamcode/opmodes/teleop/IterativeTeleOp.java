@@ -93,7 +93,8 @@ public class IterativeTeleOp extends OpMode
         arm.extend();
         arm.rotate();
         pincer.pince(currentGamepad2, previousGamepad2);
-        pincer.rotate(currentGamepad2, previousGamepad2);
+//        pincer.rotate(currentGamepad2, previousGamepad2);
+        pincer.rotate();
         pincer.twist();
 
         // Show the elapsed game time
